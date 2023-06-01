@@ -38,7 +38,7 @@ typedef struct
 /************************************************************************/
 str_task_t arr_str_task[SCH_MAX_TASK];
 static enu_sos_state_t enu_sos_state = NOT_INITIALIZE;
-static u8 u8_gl_flag=0;
+static u8 u8_gl_sos_flag=0;
 
 /************************************************************************/
 /*						  PRIVATE FUNCTIONS					            */
@@ -83,6 +83,8 @@ enu_system_status_t sos_init (void)
 	}
 	return enu_system_status;
 }
+
+
 enu_system_status_t sos_deinit (void)
 {
 	enu_system_status_t enu_system_status = SOS_STATUS_SUCCESS;
@@ -196,9 +198,9 @@ void sos_run (void)
 			break;
 		}
 	}
-	if(u8_gl_flag == 1)
+	if(u8_gl_sos_flag == 1)
 	{
-		u8_gl_flag = 0;
+		u8_gl_sos_flag = 0;
 		for(u8_l_index = 0; u8_l_index < SCH_MAX_TASK ; u8_l_index++)
 		{
 			if(arr_str_task[u8_l_index].ptr_task != NULL_PTR)
@@ -219,7 +221,9 @@ void sos_run (void)
 			}
 		}
 	}
-}																		
+}		
+
+																
 void sos_disable (void)
 {
 	//stop timer interrupt
@@ -229,7 +233,7 @@ void sos_disable (void)
 
 static void sos_update(void)
 {
-	u8_gl_flag = 1;
+	u8_gl_sos_flag = 1;
 }
 
 

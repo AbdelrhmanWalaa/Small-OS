@@ -19,7 +19,7 @@
 /*						   MACRO definitions					        */
 /************************************************************************/
 #define SCH_MAX_TASK	(10)		//size of OS database
-#define TICK_TIME		(1)		//tick time unit in millisecond
+#define TICK_TIME		(1)			//tick time unit in millisecond
 
 
 /************************************************************************/
