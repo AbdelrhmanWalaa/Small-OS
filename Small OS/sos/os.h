@@ -41,9 +41,9 @@ typedef enum{
 /************************************************************************/
 enu_system_status_t sos_init (void);																		/*initialize SOS database*/
 enu_system_status_t sos_deinit (void);																		/*reset the SOS database to invalid values*/
-enu_system_status_t sos_create_task (ptr_task_t  ptr_task,u16 delay,u16 period,u16 priority,u8* task_id);	/*create new task and add it to the SOS database*/
+enu_system_status_t sos_create_task (ptr_task_t  ptr_task,u16 delay,u16 period,u8* task_id);				/*create new task and add it to the SOS database*/
 enu_system_status_t sos_delete_task (u8 task_id);															/*delete existing task from SOS database*/
-enu_system_status_t sos_modify_task (ptr_task_t  ptr_task,u16 delay,u16 period,u16 priority);				/*modify existing task parameters in the SOS database*/
+enu_system_status_t sos_modify_task (ptr_task_t  ptr_task,u16 delay,u16 period);							/*modify existing task parameters in the SOS database*/
 void sos_run (void);																						/*run the scheduler*/
 void sos_disable (void);																					/*stop the scheduler*/
 

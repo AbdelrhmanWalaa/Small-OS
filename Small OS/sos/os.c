@@ -29,7 +29,6 @@ typedef struct
 	ptr_task_t			ptr_task;
 	u16					initial_delay;
 	u16					period;
-	u16					priority;
 	u8					task_id;
 	enu_task_states_t	enu_task_states; 
 }str_task_t;
@@ -70,7 +69,6 @@ enu_system_status_t sos_init (void)
 			arr_str_task[u8_l_index].initial_delay	= 0;
 			arr_str_task[u8_l_index].period			= 0;
 			arr_str_task[u8_l_index].task_id		= 0;
-			arr_str_task[u8_l_index].priority		= -1;
 			arr_str_task[u8_l_index].enu_task_states= WAIT;
 		}
 		enu_sos_state = INITIALIZE;
@@ -98,7 +96,6 @@ enu_system_status_t sos_deinit (void)
 			arr_str_task[u8_l_index].initial_delay	= 0;
 			arr_str_task[u8_l_index].period			= 0;
 			arr_str_task[u8_l_index].task_id		= 0;
-			arr_str_task[u8_l_index].priority		= -1;
 			arr_str_task[u8_l_index].enu_task_states= WAIT;
 		}
 		enu_sos_state = NOT_INITIALIZE;
@@ -109,7 +106,7 @@ enu_system_status_t sos_deinit (void)
 	}
 	return enu_system_status;
 }																	
-enu_system_status_t sos_create_task (ptr_task_t  ptr_task,u16 delay,u16 period,u16 priority,u8* task_id)
+enu_system_status_t sos_create_task (ptr_task_t  ptr_task,u16 delay,u16 period,u8* task_id)
 {
 	enu_system_status_t enu_system_status = SOS_STATUS_SUCCESS;
 	u8 u8_l_index=0;
@@ -130,7 +127,6 @@ enu_system_status_t sos_create_task (ptr_task_t  ptr_task,u16 delay,u16 period,u
 		arr_str_task[u8_l_index].ptr_task		= ptr_task;
 		arr_str_task[u8_l_index].initial_delay	= delay;
 		arr_str_task[u8_l_index].period			= period;
-		arr_str_task[u8_l_index].priority		= priority;
 		arr_str_task[u8_l_index].task_id		= u8_l_index;
 		*task_id								= arr_str_task[u8_l_index].task_id;
 	}
@@ -147,7 +143,6 @@ enu_system_status_t sos_delete_task (u8 task_id)
 		arr_str_task[task_id].initial_delay		= 0;
 		arr_str_task[task_id].period			= 0;
 		arr_str_task[task_id].task_id			= 0;
-		arr_str_task[task_id].priority			= -1;
 		arr_str_task[task_id].enu_task_states	= WAIT;
 	}
 	else
@@ -157,7 +152,7 @@ enu_system_status_t sos_delete_task (u8 task_id)
 	}
 	return enu_system_status; 
 }								
-enu_system_status_t sos_modify_task (ptr_task_t  ptr_task,u16 delay,u16 period,u16 priority)
+enu_system_status_t sos_modify_task (ptr_task_t  ptr_task,u16 delay,u16 period)
 {
 	enu_system_status_t enu_system_status = SOS_STATUS_SUCCESS;
 	u8 u8_l_index=0;
@@ -169,7 +164,6 @@ enu_system_status_t sos_modify_task (ptr_task_t  ptr_task,u16 delay,u16 period,u
 			{
 				arr_str_task[u8_l_index].initial_delay	=delay;
 				arr_str_task[u8_l_index].period			=period;
-				arr_str_task[u8_l_index].priority		=priority;
 				break;
 			}
 		}
