@@ -105,7 +105,9 @@ enu_system_status_t sos_deinit (void)
 		enu_system_status = SOS_STATUS_INVALID;
 	}
 	return enu_system_status;
-}																	
+}			
+
+														
 enu_system_status_t sos_create_task (ptr_task_t  ptr_task,u16 delay,u16 period,u8* task_id)
 {
 	enu_system_status_t enu_system_status = SOS_STATUS_SUCCESS;
@@ -133,6 +135,8 @@ enu_system_status_t sos_create_task (ptr_task_t  ptr_task,u16 delay,u16 period,u
 	}
 	return enu_system_status;	
 }	
+
+
 enu_system_status_t sos_delete_task (u8 task_id)
 {
 	enu_system_status_t enu_system_status = SOS_STATUS_SUCCESS;
@@ -165,7 +169,7 @@ enu_system_status_t sos_modify_task (ptr_task_t  ptr_task,u16 delay,u16 period,u
 		{
 			if(arr_str_task[u8_l_index].task_id == task_id)
 			{
-				arr_str_task[u8_l_index].ptr_task		=ptr_task
+				arr_str_task[u8_l_index].ptr_task		=ptr_task;
 				arr_str_task[u8_l_index].initial_delay	=delay;
 				arr_str_task[u8_l_index].period			=period;
 				break;

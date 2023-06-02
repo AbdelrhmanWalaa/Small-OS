@@ -93,7 +93,7 @@ enu_system_status_t sos_delete_task (u8 task_id);
  * @return      SOS_STATUS_SUCCESS                  :   in case of successful operation     
  *              SOS_STATUS_INVALID 					:   in case of the task is not found      
  */														
-enu_system_status_t sos_modify_task (ptr_task_t  ptr_task,u16 delay,u16 period);
+enu_system_status_t sos_modify_task (ptr_task_t  ptr_task,u16 delay,u16 period,u8 task_id);
 
 /**
  * @brief                                           :   Function used to run the scheduler

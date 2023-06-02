@@ -65,14 +65,95 @@ typedef enum{
 	}enu_tmr_state_t;
 
 /*============= FUNCTION PROTOTYPE =============*/
+
+/**
+ * @brief                                           :   used to initialize timer with required the configuration
+ * 
+ * @param[in]   str_tmr_config						:   pointer to configuration structure 
+ * 
+ * @return      TMR_STATE_SUCCESS					:   in case of successful operation     
+ *              TMR_STATE_FAILED 					:   in case of the pointer is not valid     
+ */	
 enu_tmr_state_t tmr_Init	(str_tmr_configType* str_tmr_config);
+
+/**
+ * @brief                                           :   Function used to set the timer value
+ * 
+ * @param[in]   time								:	the required periodic value from the timer  
+ * 
+ * @return      void								:       
+ *                  
+ */
 void tmr_setTimer			(u16 time);
+
+/**
+ * @brief                                           :   Function used to clear the timer value
+ * 
+ * @param[in]   void								:   
+ * 
+ * @return      void								:       
+ *                  
+ */
 void tmr_Clear				(void);
+
+/**
+ * @brief                                           :   Function used to stop the timer clock
+ * 
+ * @param[in]   void								:   
+ * 
+ * @return      void								:       
+ *                  
+ */
 void tmr_Stop				(void);
+
+/**
+ * @brief                                           :   Function used to resume the timer clock
+ * 
+ * @param[in]   void								:   
+ * 
+ * @return      void								:       
+ *                  
+ */
 void tmr_resume				(void);
+
+/**
+ * @brief                                           :   Function used to set timer overflow callback function
+ * 
+ * @param[in]   g_ptr								:	pointer to the callback function   
+ * 
+ * @return      void								:       
+ *                  
+ */
 void tmr_ovf_setCallback	(void(*g_ptr)(void));
+
+/**
+ * @brief                                           :   Function used to set timer compare_a callback function
+ * 
+ * @param[in]   g_ptr								:	pointer to the callback function   
+ * 
+ * @return      void								:       
+ *                  
+ */
 void tmr_cmpa_setCallback	(void(*g_ptr)(void));
+
+/**
+ * @brief                                           :   Function used to set timer compare_b callback function
+ * 
+ * @param[in]   g_ptr								:	pointer to the callback function   
+ * 
+ * @return      void								:       
+ *                  
+ */
 void tmr_cmpb_setCallback	(void(*g_ptr)(void));
+
+/**
+ * @brief                                           :   Function used to set timer ICU callback function
+ * 
+ * @param[in]   g_ptr								:	pointer to the callback function   
+ * 
+ * @return      void								:       
+ *                  
+ */
 void tmr_icu_setCallback	(void(*g_ptr)(void));
 
 
