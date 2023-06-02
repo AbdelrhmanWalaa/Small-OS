@@ -86,6 +86,11 @@ void tmr_Stop(void)
 	TCCR1B=CLK_STOP;
 }
 
+void tmr_resume(void)
+{
+	TCCR1B = (TCCR1B & CLK_MASKING_BITS)|(1<<CS10);
+}
+
 void tmr_ovf_setCallback(void(*g_ptr)(void))
 {
 	gl_ov_callBackPtr = g_ptr;

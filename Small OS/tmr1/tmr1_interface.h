@@ -69,6 +69,7 @@ enu_tmr_state_t tmr_Init	(str_tmr_configType* str_tmr_config);
 void tmr_setTimer			(u16 time);
 void tmr_Clear				(void);
 void tmr_Stop				(void);
+void tmr_resume				(void);
 void tmr_ovf_setCallback	(void(*g_ptr)(void));
 void tmr_cmpa_setCallback	(void(*g_ptr)(void));
 void tmr_cmpb_setCallback	(void(*g_ptr)(void));

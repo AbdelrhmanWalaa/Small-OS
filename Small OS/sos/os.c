@@ -7,7 +7,6 @@
 /************************************************************************/
 /*						header files inclusion			                */
 /************************************************************************/
-
 #include "os.h"
 #include "../MCAL/tmr1/tmr1_interface.h"
 
@@ -38,12 +37,11 @@ typedef struct
 /************************************************************************/
 str_task_t arr_str_task[SCH_MAX_TASK];
 static enu_sos_state_t enu_sos_state = NOT_INITIALIZE;
-static u8 u8_gl_sos_flag=0;
+static u8 u8_gl_sos_flag = 0;
 
 /************************************************************************/
 /*						  PRIVATE FUNCTIONS					            */
 /************************************************************************/
-
 static void sos_update(void);
 
 
@@ -130,6 +128,7 @@ enu_system_status_t sos_create_task (ptr_task_t  ptr_task,u16 delay,u16 period,u
 		arr_str_task[u8_l_index].initial_delay	= delay;
 		arr_str_task[u8_l_index].period			= period;
 		arr_str_task[u8_l_index].task_id		= u8_l_index;
+		if(task_id != NULL_PTR)
 		*task_id								= arr_str_task[u8_l_index].task_id;
 	}
 	return enu_system_status;	
@@ -153,8 +152,10 @@ enu_system_status_t sos_delete_task (u8 task_id)
 		enu_system_status = SOS_STATUS_INVALID;
 	}
 	return enu_system_status; 
-}								
-enu_system_status_t sos_modify_task (ptr_task_t  ptr_task,u16 delay,u16 period)
+}
+
+
+enu_system_status_t sos_modify_task (ptr_task_t  ptr_task,u16 delay,u16 period,u8 task_id)
 {
 	enu_system_status_t enu_system_status = SOS_STATUS_SUCCESS;
 	u8 u8_l_index=0;
@@ -162,8 +163,9 @@ enu_system_status_t sos_modify_task (ptr_task_t  ptr_task,u16 delay,u16 period)
 	{
 		for(u8_l_index = 0; u8_l_index < SCH_MAX_TASK ; u8_l_index++)
 		{
-			if(arr_str_task[u8_l_index].ptr_task == ptr_task)
+			if(arr_str_task[u8_l_index].task_id == task_id)
 			{
+				arr_str_task[u8_l_index].ptr_task		=ptr_task
 				arr_str_task[u8_l_index].initial_delay	=delay;
 				arr_str_task[u8_l_index].period			=period;
 				break;
@@ -184,39 +186,44 @@ enu_system_status_t sos_modify_task (ptr_task_t  ptr_task,u16 delay,u16 period)
 	
 void sos_run (void)
 {
-	u8 u8_l_index=0;
-	for(u8_l_index = 0; u8_l_index < SCH_MAX_TASK ; u8_l_index++)
+	//resume timer clock 
+	tmr_resume();
+	while(1)
 	{
-		if(arr_str_task[u8_l_index].enu_task_states == READY)
-		{
-			(*arr_str_task[u8_l_index].ptr_task)();		//run the task
-			arr_str_task[u8_l_index].enu_task_states = WAIT;
-			if(arr_str_task[u8_l_index].period == 0)	//one shot task
-			{
-				sos_delete_task(u8_l_index);			//remove the task from OS database
-			}
-			break;
-		}
-	}
-	if(u8_gl_sos_flag == 1)
-	{
-		u8_gl_sos_flag = 0;
+		u8 u8_l_index=0;
 		for(u8_l_index = 0; u8_l_index < SCH_MAX_TASK ; u8_l_index++)
 		{
-			if(arr_str_task[u8_l_index].ptr_task != NULL_PTR)
+			if(arr_str_task[u8_l_index].enu_task_states == READY)
 			{
-				if(arr_str_task[u8_l_index].initial_delay == 0)
+				(*arr_str_task[u8_l_index].ptr_task)();		//run the task
+				arr_str_task[u8_l_index].enu_task_states = WAIT;
+				if(arr_str_task[u8_l_index].period == 0)	//one shot task
 				{
-					arr_str_task[u8_l_index].enu_task_states = READY;
-					if(arr_str_task[u8_l_index].period > 0)
-					{
-						//Schedule periodic tasks to run again
-						arr_str_task[u8_l_index].initial_delay = arr_str_task[u8_l_index].period;
-					}
+					sos_delete_task(u8_l_index);			//remove the task from OS database
 				}
-				else
+				break;
+			}
+		}
+		if(u8_gl_sos_flag == 1)
+		{
+			u8_gl_sos_flag = 0;
+			for(u8_l_index = 0; u8_l_index < SCH_MAX_TASK ; u8_l_index++)
+			{
+				if(arr_str_task[u8_l_index].ptr_task != NULL_PTR)
 				{
-					arr_str_task[u8_l_index].initial_delay--;
+					if(arr_str_task[u8_l_index].initial_delay == 0)
+					{
+						arr_str_task[u8_l_index].enu_task_states = READY;
+						if(arr_str_task[u8_l_index].period > 0)
+						{
+							//Schedule periodic tasks to run again
+							arr_str_task[u8_l_index].initial_delay = arr_str_task[u8_l_index].period;
+						}
+					}
+					else
+					{
+						arr_str_task[u8_l_index].initial_delay--;
+					}
 				}
 			}
 		}
@@ -226,7 +233,7 @@ void sos_run (void)
 																
 void sos_disable (void)
 {
-	//stop timer interrupt
+	//stop timer clock
 	tmr_Stop();
 }
 
