@@ -42,7 +42,7 @@ u8 BTN_initializationNMLMode( u8 u8_a_DIOPortId, u8 u8_a_DIOPinId )
 
 /*******************************************************************************************************************************************************************/
 /*
- Name: BTN_initializationNMLMode
+ Name: BTN_initializationEXIMode
  Input: u8 EXIId, u8 EXISenseControl, and Pointer to Function that takes void and returns void
  Output: u8 Error or No Error
  Description: Function to initialize BTN pin in EXI Mode.
