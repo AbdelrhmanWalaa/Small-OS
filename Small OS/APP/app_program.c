@@ -47,13 +47,13 @@ static u8 u8_gs_task2Id;
  Output: void
  Description: Function to Initialize the Application.
 */ 
-void APP_initialization(void)
+void APP_initialization( void )
 {
 	/* HAL Initialization */
 	BTN_initializationEXIMode( BTN_U8_EXI_0, BTN_U8_EXI_SENSE_FALLING_EDGE, &APP_stopSOS );
 	BTN_initializationEXIMode( BTN_U8_EXI_1, BTN_U8_EXI_SENSE_FALLING_EDGE, &APP_startSOS );
-	LED_initialization( LED_U8_0 );
-	LED_initialization( LED_U8_1 );
+	LED_initialization( LED_U8_4 );
+	LED_initialization( LED_U8_5 );
 		
 	/* MWL Initialization */
 	SOS_init();
@@ -66,7 +66,7 @@ void APP_initialization(void)
  Output: void
  Description: Function to Start the basic flow of the Application. 
 */
-void APP_startProgram  (void)
+void APP_startProgram  ( void )
 {
 	/* Create Tasks */
 	SOS_create_task( APP_taskToggleLED0, 0, 300, &u8_gs_task1Id );
@@ -92,6 +92,7 @@ void APP_startProgram  (void)
 void APP_startSOS      ( void )
 {
 	u8_g_startFlag = APP_U8_FLAG_UP;
+	SOS_updateSOSStatus( SOS_U8_ENABLE_SOS );	
 }
 
 /*******************************************************************************************************************************************************************/
@@ -103,7 +104,7 @@ void APP_startSOS      ( void )
 */
 void APP_stopSOS       ( void )
 {
-	SOS_disable();
+	SOS_updateSOSStatus( SOS_U8_DISABLE_SOS );
 }
 
 /*******************************************************************************************************************************************************************/
@@ -111,11 +112,11 @@ void APP_stopSOS       ( void )
  Name: APP_taskToggleLED0
  Input: void
  Output: void
- Description: Function to Stop the car. 
+ Description: Function to implement task 1 logic.
 */
 void APP_taskToggleLED0( void )
 {
-	LED_setLEDPin( LED_U8_0, LED_U8_TOGGLE );
+	LED_setLEDPin( LED_U8_4, LED_U8_TOGGLE );
 }
 
 /*******************************************************************************************************************************************************************/
@@ -123,11 +124,11 @@ void APP_taskToggleLED0( void )
  Name: APP_taskToggleLED1
  Input: void
  Output: void
- Description: Function to Stop the car. 
+ Description: Function to implement task 2 logic.
 */
 void APP_taskToggleLED1( void )
 {
-	LED_setLEDPin( LED_U8_1, LED_U8_TOGGLE );
+	LED_setLEDPin( LED_U8_5, LED_U8_TOGGLE );
 }
 
 /*******************************************************************************************************************************************************************/

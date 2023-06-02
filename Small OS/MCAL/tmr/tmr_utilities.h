@@ -1,13 +1,12 @@
 /*
- * tmr1_utilities.h
+ * tmr_utilities.h
  *
  * Created: 2023-06-01 2:34:07 AM
  *  Author: HAZEM-PC
  */ 
 
-
-#ifndef TMR1_UTILITIES_H_
-#define TMR1_UTILITIES_H_
+#ifndef TMR_UTILITIES_H_
+#define TMR_UTILITIES_H_
 
 /*============= MACRO DEFINITION =============*/
 
@@ -102,5 +101,4 @@
 #define ISR_HANDLER(INT_VECT) void INT_VECT(void) __attribute__ ((signal,used));\
 void INT_VECT(void)
 
-
-#endif /* TMR1_UTILITIES_H_ */
+#endif /* TMR_UTILITIES_H_ */

@@ -43,7 +43,7 @@ SUBDIRS :=  \
 ../MCAL/dio \
 ../MCAL/exi \
 ../MCAL/gli \
-../MCAL/tmr1 \
+../MCAL/tmr \
 ../MWL \
 ../APP \
 ../LIB \
@@ -59,7 +59,7 @@ C_SRCS +=  \
 ../MCAL/dio/dio_program.c \
 ../MCAL/exi/exi_program.c \
 ../MCAL/gli/gli_program.c \
-../MCAL/tmr1/tmr1_interface.c \
+../MCAL/tmr/tmr_program.c \
 ../MWL/sos/sos_program.c
 
 
@@ -77,7 +77,7 @@ main.o \
 MCAL/dio/dio_program.o \
 MCAL/exi/exi_program.o \
 MCAL/gli/gli_program.o \
-MCAL/tmr1/tmr1_interface.o \
+MCAL/tmr/tmr_program.o \
 MWL/sos/sos_program.o
 
 OBJS_AS_ARGS +=  \
@@ -88,7 +88,7 @@ main.o \
 MCAL/dio/dio_program.o \
 MCAL/exi/exi_program.o \
 MCAL/gli/gli_program.o \
-MCAL/tmr1/tmr1_interface.o \
+MCAL/tmr/tmr_program.o \
 MWL/sos/sos_program.o
 
 C_DEPS +=  \
@@ -99,7 +99,7 @@ main.d \
 MCAL/dio/dio_program.d \
 MCAL/exi/exi_program.d \
 MCAL/gli/gli_program.d \
-MCAL/tmr1/tmr1_interface.d \
+MCAL/tmr/tmr_program.d \
 MWL/sos/sos_program.d
 
 C_DEPS_AS_ARGS +=  \
@@ -110,7 +110,7 @@ main.d \
 MCAL/dio/dio_program.d \
 MCAL/exi/exi_program.d \
 MCAL/gli/gli_program.d \
-MCAL/tmr1/tmr1_interface.d \
+MCAL/tmr/tmr_program.d \
 MWL/sos/sos_program.d
 
 OUTPUT_FILE_PATH +=Small\ OS.elf
@@ -176,7 +176,7 @@ MCAL/gli/gli_program.o: ../MCAL/gli/gli_program.c
 	@echo Finished building: $<
 	
 
-MCAL/tmr1/tmr1_interface.o: ../MCAL/tmr1/tmr1_interface.c
+MCAL/tmr/tmr_program.o: ../MCAL/tmr/tmr_program.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATmega_DFP\2.0.401\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32a -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATmega_DFP\2.0.401\gcc\dev\atmega32a" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

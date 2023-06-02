@@ -18,7 +18,7 @@
 			C
 			D
  */
-#define LED_U8_PORT			0
+#define LED_U8_PORT			B
 
 /* LED Pin(s) */
 /* Options: P0

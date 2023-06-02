@@ -16,7 +16,7 @@ MCAL\exi\exi_program.c
 
 MCAL\gli\gli_program.c
 
-MCAL\tmr1\tmr1_interface.c
+MCAL\tmr\tmr_program.c
 
 MWL\sos\sos_program.c
 

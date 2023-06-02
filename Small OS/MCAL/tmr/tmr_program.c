@@ -1,12 +1,12 @@
 /*
- * tmr1_interface.c
+ * tmr_program.c
  *
  * Created: 2023-06-01 2:33:12 AM
  *  Author: HAZEM-PC
  */ 
 
 /*============= FILE INCLUSION =============*/
-#include "tmr1_interface.h"
+#include "tmr_interface.h"
 
 /*============= MACRO DEFINITION =============*/
 #define CLK_MASKING_BITS	0xF8
@@ -84,6 +84,11 @@ void tmr_Stop(void)
 {
 	//stop timer clock
 	TCCR1B=CLK_STOP;
+}
+
+void tmr_resume(void)
+{
+	TCCR1B = (TCCR1B & CLK_MASKING_BITS)|(1<<CS10);
 }
 
 void tmr_ovf_setCallback(void(*g_ptr)(void))

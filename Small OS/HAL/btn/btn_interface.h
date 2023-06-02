@@ -52,10 +52,10 @@
 /*******************************************************************************************************************************************************************/
 /* BTN Functions' Prototypes */
 
-u8 BTN_initializationNMLMode( u8 u8_a_DIOPortId, u8 u8_a_DIOPinId );
+u8 BTN_initializationNMLMode( u8 u8_a_btnPortId, u8 u8_a_btnPinId );
 u8 BTN_initializationEXIMode( u8 u8_a_EXIId, u8 u8_a_EXISenseControl, void ( *pf_a_EXIAction ) ( void ) );
 
-u8 BTN_getBTNState          ( u8 u8_a_DIOPortId, u8 u8_a_DIOPinId, u8 *pu8_a_returnedBTNState );
+u8 BTN_getBTNState          ( u8 u8_a_btnPortId, u8 u8_a_btnPinId, u8 *pu8_a_returnedBTNState );
 
 /*******************************************************************************************************************************************************************/
 

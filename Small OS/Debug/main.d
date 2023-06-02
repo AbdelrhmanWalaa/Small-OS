@@ -18,17 +18,17 @@ main.d main.o: .././main.c .././main.h .././APP/app_interface.h \
  .././APP/../HAL/led/../../MCAL/dio/dio_interface.h \
  .././APP/../MWL/sos/sos_interface.h \
  .././APP/../MWL/sos/../../LIB/std_types/std_types.h \
- .././APP/../MWL/sos/../../MCAL/tmr1/tmr1_interface.h \
- .././APP/../MWL/sos/../../MCAL/tmr1/tmr1_utilities.h \
- .././APP/../MWL/sos/../../MCAL/tmr1/../../LIB/mcu_config/mcu_config.h \
+ .././APP/../MWL/sos/../../MCAL/tmr/tmr_interface.h \
+ .././APP/../MWL/sos/../../MCAL/tmr/tmr_utilities.h \
+ .././APP/../MWL/sos/../../MCAL/tmr/../../LIB/mcu_config/mcu_config.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdint.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdint.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h \
- .././APP/../MWL/sos/../../MCAL/tmr1/../../LIB/std_types/std_types.h \
- .././APP/../MWL/sos/../../MCAL/tmr1/../../LIB/bit_math/bit_math.h
+ .././APP/../MWL/sos/../../MCAL/tmr/../../LIB/std_types/std_types.h \
+ .././APP/../MWL/sos/../../MCAL/tmr/../../LIB/bit_math/bit_math.h
 
 .././main.h:
 
@@ -74,11 +74,11 @@ main.d main.o: .././main.c .././main.h .././APP/app_interface.h \
 
 .././APP/../MWL/sos/../../LIB/std_types/std_types.h:
 
-.././APP/../MWL/sos/../../MCAL/tmr1/tmr1_interface.h:
+.././APP/../MWL/sos/../../MCAL/tmr/tmr_interface.h:
 
-.././APP/../MWL/sos/../../MCAL/tmr1/tmr1_utilities.h:
+.././APP/../MWL/sos/../../MCAL/tmr/tmr_utilities.h:
 
-.././APP/../MWL/sos/../../MCAL/tmr1/../../LIB/mcu_config/mcu_config.h:
+.././APP/../MWL/sos/../../MCAL/tmr/../../LIB/mcu_config/mcu_config.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h:
 
@@ -92,6 +92,6 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h:
 
-.././APP/../MWL/sos/../../MCAL/tmr1/../../LIB/std_types/std_types.h:
+.././APP/../MWL/sos/../../MCAL/tmr/../../LIB/std_types/std_types.h:
 
-.././APP/../MWL/sos/../../MCAL/tmr1/../../LIB/bit_math/bit_math.h:
+.././APP/../MWL/sos/../../MCAL/tmr/../../LIB/bit_math/bit_math.h:

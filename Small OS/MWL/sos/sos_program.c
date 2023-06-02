@@ -10,7 +10,6 @@
 
 #include "sos_interface.h"
 
-
 /************************************************************************/
 /*						   type definitions					            */
 /************************************************************************/
@@ -30,7 +29,7 @@ typedef struct
 	u16					initial_delay;
 	u16					period;
 	u8					task_id;
-	enu_task_states_t	enu_task_states; 
+	enu_task_states_t	enu_task_states;
 }str_task_t;
 
 /************************************************************************/
@@ -38,13 +37,13 @@ typedef struct
 /************************************************************************/
 str_task_t arr_str_task[SCH_MAX_TASK];
 static enu_sos_state_t enu_sos_state = NOT_INITIALIZE;
-static u8 u8_gl_flag=0;
-static u8 u8_gl_stopFlag=0;
+static u8 u8_gl_sos_flag = 0;
+
+static u8 u8_gs_SOSStatus = SOS_U8_ENABLE_SOS;
 
 /************************************************************************/
 /*						  PRIVATE FUNCTIONS					            */
 /************************************************************************/
-
 static void SOS_update(void);
 
 
@@ -57,10 +56,10 @@ enu_system_status_t SOS_init (void)
 	enu_system_status_t enu_system_status = SOS_STATUS_SUCCESS;
 	u8 u8_l_index=0;
 	str_tmr_configType str_tmr_config =
-		{	.enu_tmr_mode		= NORMAL,
-			.enu_tmr_clk		= CLK_STOP,
-			.enu_tmr_intState	= EN_OVF
-		};
+	{	.enu_tmr_mode		= NORMAL,
+		.enu_tmr_clk		= CLK_STOP,
+		.enu_tmr_intState	= EN_OVF
+	};
 	//initialize OS database by clear each index
 	if(enu_sos_state == NOT_INITIALIZE)
 	{
@@ -84,6 +83,8 @@ enu_system_status_t SOS_init (void)
 	}
 	return enu_system_status;
 }
+
+
 enu_system_status_t SOS_deinit (void)
 {
 	enu_system_status_t enu_system_status = SOS_STATUS_SUCCESS;
@@ -106,7 +107,9 @@ enu_system_status_t SOS_deinit (void)
 		enu_system_status = SOS_STATUS_INVALID;
 	}
 	return enu_system_status;
-}																	
+}
+
+
 enu_system_status_t SOS_create_task (ptr_task_t  ptr_task,u16 delay,u16 period,u8* task_id)
 {
 	enu_system_status_t enu_system_status = SOS_STATUS_SUCCESS;
@@ -129,10 +132,13 @@ enu_system_status_t SOS_create_task (ptr_task_t  ptr_task,u16 delay,u16 period,u
 		arr_str_task[u8_l_index].initial_delay	= delay;
 		arr_str_task[u8_l_index].period			= period;
 		arr_str_task[u8_l_index].task_id		= u8_l_index;
+		if(task_id != NULL)
 		*task_id								= arr_str_task[u8_l_index].task_id;
 	}
-	return enu_system_status;	
-}	
+	return enu_system_status;
+}
+
+
 enu_system_status_t SOS_delete_task (u8 task_id)
 {
 	enu_system_status_t enu_system_status = SOS_STATUS_SUCCESS;
@@ -151,9 +157,11 @@ enu_system_status_t SOS_delete_task (u8 task_id)
 		//no task found in that location
 		enu_system_status = SOS_STATUS_INVALID;
 	}
-	return enu_system_status; 
-}								
-enu_system_status_t SOS_modify_task (ptr_task_t  ptr_task,u16 delay,u16 period)
+	return enu_system_status;
+}
+
+
+enu_system_status_t SOS_modify_task (ptr_task_t  ptr_task,u16 delay,u16 period,u8 task_id)
 {
 	enu_system_status_t enu_system_status = SOS_STATUS_SUCCESS;
 	u8 u8_l_index=0;
@@ -161,8 +169,9 @@ enu_system_status_t SOS_modify_task (ptr_task_t  ptr_task,u16 delay,u16 period)
 	{
 		for(u8_l_index = 0; u8_l_index < SCH_MAX_TASK ; u8_l_index++)
 		{
-			if(arr_str_task[u8_l_index].ptr_task == ptr_task)
+			if(arr_str_task[u8_l_index].task_id == task_id)
 			{
+				arr_str_task[u8_l_index].ptr_task		=ptr_task;
 				arr_str_task[u8_l_index].initial_delay	=delay;
 				arr_str_task[u8_l_index].period			=period;
 				break;
@@ -180,62 +189,91 @@ enu_system_status_t SOS_modify_task (ptr_task_t  ptr_task,u16 delay,u16 period)
 	return enu_system_status;
 }
 
-	
-void SOS_run (void)
+
+void SOS_run ( void )
 {
-	while (u8_gl_stopFlag != 1)
+	while ( 1 )
 	{
-		u8 u8_l_index=0;
-		for(u8_l_index = 0; u8_l_index < SCH_MAX_TASK ; u8_l_index++)
+		switch ( u8_gs_SOSStatus )
 		{
-			if(arr_str_task[u8_l_index].enu_task_states == READY)
+			case SOS_U8_ENABLE_SOS : 
 			{
-				arr_str_task[u8_l_index].ptr_task();		//run the task
-				arr_str_task[u8_l_index].enu_task_states = WAIT;
-				if(arr_str_task[u8_l_index].period == 0)	//one shot task
-				{
-					SOS_delete_task(u8_l_index);			//remove the task from OS database
-				}
+				tmr_resume();
+				SOS_enable(); 
+				break;
+			}
+			case SOS_U8_DISABLE_SOS: 
+			{
+				SOS_disable();
 				break;
 			}
 		}
-		if(u8_gl_flag == 1)
+	}
+}
+
+
+void SOS_updateSOSStatus ( u8 u8_a_SOSStatus )
+{
+	u8_gs_SOSStatus = u8_a_SOSStatus;
+}
+
+
+void SOS_enable (void)
+{
+	u8 u8_l_index=0;
+	
+	for(u8_l_index = 0; u8_l_index < SCH_MAX_TASK ; u8_l_index++)
+	{
+		if(arr_str_task[u8_l_index].enu_task_states == READY)
 		{
-			u8_gl_flag = 0;
-			for(u8_l_index = 0; u8_l_index < SCH_MAX_TASK ; u8_l_index++)
+			(*arr_str_task[u8_l_index].ptr_task)();		//run the task
+			
+			arr_str_task[u8_l_index].enu_task_states = WAIT;
+			
+			if(arr_str_task[u8_l_index].period == 0)	//one shot task
 			{
-				if(arr_str_task[u8_l_index].ptr_task != NULL)
+				SOS_delete_task(u8_l_index);			//remove the task from OS database
+			}
+			break;
+		}
+	}
+	
+	if(u8_gl_sos_flag == 1)
+	{
+		u8_gl_sos_flag = 0;
+		
+		for(u8_l_index = 0; u8_l_index < SCH_MAX_TASK ; u8_l_index++)
+		{
+			if(arr_str_task[u8_l_index].ptr_task != NULL)
+			{
+				if(arr_str_task[u8_l_index].initial_delay == 0)
 				{
-					if(arr_str_task[u8_l_index].initial_delay == 0)
+					arr_str_task[u8_l_index].enu_task_states = READY;
+					
+					if(arr_str_task[u8_l_index].period > 0)
 					{
-						arr_str_task[u8_l_index].enu_task_states = READY;
-						if(arr_str_task[u8_l_index].period > 0)
-						{
-							//Schedule periodic tasks to run again
-							arr_str_task[u8_l_index].initial_delay = arr_str_task[u8_l_index].period;
-						}
+						//Schedule periodic tasks to run again
+						arr_str_task[u8_l_index].initial_delay = arr_str_task[u8_l_index].period;
 					}
-					else
-					{
-						arr_str_task[u8_l_index].initial_delay--;
-					}
+				}
+				else
+				{
+					arr_str_task[u8_l_index].initial_delay--;
 				}
 			}
 		}
 	}
 }
-																
+
+
 void SOS_disable (void)
 {
-	//stop timer interrupt
+	//stop timer clock
 	tmr_Stop();
-	u8_gl_stopFlag = 1;
 }
 
 
 static void SOS_update(void)
 {
-	u8_gl_flag = 1;
+	u8_gl_sos_flag = 1;
 }
-
-

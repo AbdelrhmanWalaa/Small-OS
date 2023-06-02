@@ -189,13 +189,13 @@
     <Compile Include="MCAL\gli\gli_program.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="MCAL\tmr1\tmr1_interface.c">
+    <Compile Include="MCAL\tmr\tmr_program.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="MCAL\tmr1\tmr1_interface.h">
+    <Compile Include="MCAL\tmr\tmr_interface.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="MCAL\tmr1\tmr1_utilities.h">
+    <Compile Include="MCAL\tmr\tmr_utilities.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="MWL\sos\sos_program.c">
@@ -216,7 +216,7 @@
     <Folder Include="MCAL\dio" />
     <Folder Include="MCAL\exi" />
     <Folder Include="MCAL\gli" />
-    <Folder Include="MCAL\tmr1" />
+    <Folder Include="MCAL\tmr" />
     <Folder Include="MWL" />
     <Folder Include="APP" />
     <Folder Include="LIB" />

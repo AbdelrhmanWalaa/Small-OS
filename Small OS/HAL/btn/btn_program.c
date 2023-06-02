@@ -12,28 +12,28 @@
 /*******************************************************************************************************************************************************************/
 /*
  Name: BTN_initializationNMLMode
- Input: u8 DIOPortId and u8 DIOPinId
+ Input: u8 BTNPortId and u8 BTNPinId
  Output: u8 Error or No Error
  Description: Function to initialize BTN pin in NML Mode.
 */
-u8 BTN_initializationNMLMode( u8 u8_a_DIOPortId, u8 u8_a_DIOPinId )
+u8 BTN_initializationNMLMode( u8 u8_a_btnPortId, u8 u8_a_btnPinId  )
 {
 	/* Define local variable to set the error state = OK */
 	u8 u8_l_errorState = STD_TYPES_OK;
 		
-	/* Check 1: DIOPortId and DIOPinId are in the valid range */
-	if ( ( u8_a_DIOPortId <= BTN_U8_DIO_PORTD ) && ( u8_a_DIOPinId <= BTN_U8_DIO_PIN7 ) )
+	/* Check 1: BTNPortId and BTNPinId are in the valid range */
+	if ( ( u8_a_btnPortId <= BTN_U8_DIO_PORTD ) && ( u8_a_btnPinId <= BTN_U8_DIO_PIN7 ) )
 	{
 		/* Step 1: Initialize BTN as input */
-		DIO_init( u8_a_DIOPortId, u8_a_DIOPinId, IN );
+		DIO_init( u8_a_btnPortId, u8_a_btnPinId, IN );
 		
 		/* Step 2: Enable Pull-up internal resistor */
-		DIO_write( u8_a_DIOPortId, u8_a_DIOPinId, HIGH );
+		DIO_write( u8_a_btnPortId, u8_a_btnPinId, HIGH );
 	}		
-	/* Check 2: DIOPortId or DIOPinId is not in the valid range */
+	/* Check 2: BTNPortId or BTNPinId is not in the valid range */
 	else
 	{
-		/* Update error state = NOK, wrong DIOPortId or DIOPinId! */
+		/* Update error state = NOK, wrong BTNPortId or BTNPinId! */
 		u8_l_errorState = STD_TYPES_NOK;
 	}
 		
@@ -81,24 +81,24 @@ u8 BTN_initializationEXIMode( u8 u8_a_EXIId, u8 u8_a_EXISenseControl, void ( *pf
 /*******************************************************************************************************************************************************************/
 /*
  Name: BTN_getBTNState
- Input: u8 DIOPortId, u8 DIOPinId and Pointer to u8 ReturnedBTNState
+ Input: u8 BTNPortId, u8 BTNPinId and Pointer to u8 ReturnedBTNState
  Output: u8 Error or No Error
  Description: Function to get BTN state.
 */
-u8 BTN_getBTNState          ( u8 u8_a_DIOPortId, u8 u8_a_DIOPinId, u8 *pu8_a_returnedBTNState )
+u8 BTN_getBTNState          ( u8 u8_a_btnPortId, u8 u8_a_btnPinId,  u8 *pu8_a_returnedBTNState )
 {
 	/* Define local variable to set the error state = OK */
 	u8 Loc_u8ErrorState = STD_TYPES_OK;
 		
-	/* Check 1: DIOPortId and DIOPinId are in the valid range, and Pointer is not equal to NULL */
-	if ( ( u8_a_DIOPortId <= BTN_U8_DIO_PORTD ) && ( u8_a_DIOPinId <= BTN_U8_DIO_PIN7 ) && ( pu8_a_returnedBTNState != NULL ) )
+	/* Check 1: BTNPortId and BTNPinId are in the valid range, and Pointer is not equal to NULL */
+	if ( ( u8_a_btnPortId <= BTN_U8_DIO_PORTD ) && ( u8_a_btnPinId <= BTN_U8_DIO_PIN7 ) && ( pu8_a_returnedBTNState != NULL ) )
 	{
-		DIO_read( u8_a_DIOPortId, u8_a_DIOPinId, pu8_a_returnedBTNState );	
+		DIO_read( u8_a_btnPortId, u8_a_btnPinId, pu8_a_returnedBTNState );	
 	}
-	/* Check 2: DIOPortId or DIOPinId is not in the valid range, or Pointer is equal to NULL */
+	/* Check 2: BTNPortId or BTNPinId is not in the valid range, or Pointer is equal to NULL */
 	else
 	{
-		/* Update error state = NOK, wrong DIOPortId or DIOPinId, or Pointer is NULL! */
+		/* Update error state = NOK, wrong BTNPortId or BTNPinId, or Pointer is NULL! */
 		Loc_u8ErrorState = STD_TYPES_NOK;
 	}
 		
